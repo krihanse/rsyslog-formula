@@ -53,8 +53,10 @@ $IncludeConfig /etc/rsyslog.d/*.conf
 {% if config.target|default(false) %}
 {% if config.protocol|default('udp') == 'tcp' %}
 *.* @@{{ config.target }}
+auth,authpriv.*	@@{{ config.target }}
 {% else %}
 *.* @{{ config.target }}
+auth,authpriv.*	@{{ config.target }}
 {% endif %}
 {% else %}
 {% for target in config.get('targets', []) %}
@@ -64,8 +66,10 @@ $ActionResumeRetryCount -1
 $ActionQueueSaveOnShutdown on
 {% if config.protocol|default('udp') == 'tcp' %}
 *.* @@{{ target }}
+auth,authpriv.*	@@{{ config.target }}
 {% else %}
 *.* @{{ target }}
+auth,authpriv.*	@{{ config.target }}
 {% endif %}
 {% endfor %}
 {% endif %}
